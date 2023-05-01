@@ -4,32 +4,54 @@
   "description": "A simple starter to get up and developing quickly with Gatsby",
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
-  "dependencies": {
-    "gatsby": "^5.9.0",
-    "gatsby-plugin-image": "^3.9.0",
-    "gatsby-plugin-manifest": "^5.9.0",
-    "gatsby-plugin-sharp": "^5.9.0",
-    "gatsby-source-filesystem": "^5.9.0",
-    "gatsby-transformer-sharp": "^5.9.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "devDependencies": {
-    "prettier": "^2.8.7"
-  },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "0BSD",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
+    "lint": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
     "start": "gatsby develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
   },
+  "dependencies": {
+    "@aws-amplify/core": "^5.1.13",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@hookform/resolvers": "^3.1.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.128",
+    "@mui/material": "^5.12.2",
+    "@mui/x-data-grid": "^6.3.0",
+    "@tanstack/react-query": "^4.29.5",
+    "eslint-plugin-cypress": "^2.13.3",
+    "gatsby": "^5.9.0",
+    "gatsby-plugin-emotion": "^8.9.0",
+    "gatsby-plugin-image": "^3.9.0",
+    "gatsby-plugin-manifest": "^5.9.0",
+    "gatsby-plugin-preload": "^1.0.0",
+    "gatsby-plugin-sharp": "^5.9.0",
+    "gatsby-source-filesystem": "^5.9.0",
+    "gatsby-transformer-sharp": "^5.9.0",
+    "lodash.range": "^3.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.9",
+    "short-uuid": "^4.2.2",
+    "yup": "^1.1.1"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-react-app": "^7.0.1",
+    "fork-ts-checker-webpack-plugin": "^8.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "0BSD",
   "repository": {
     "type": "git",
     "url": "https://github.com/gatsbyjs/gatsby-starter-default"

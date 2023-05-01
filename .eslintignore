@@ -1,0 +1,6 @@
+# cf. https://eslint.org/docs/latest/user-guide/configuring/ignoring-code
+.cache
+build
+coverage
+public
+src/gatsby-types.d.ts
