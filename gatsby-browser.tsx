@@ -1,4 +1,4 @@
-import { initAppConfig } from "./src/config";
+import { initAppConfig } from "@/config";
 import { GatsbyBrowser } from "gatsby";
 import React from "react";
 import MuiThemeProvider from "./src/styles/theme";
