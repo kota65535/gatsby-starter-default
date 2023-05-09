@@ -1,10 +1,8 @@
 import React from 'react';
 import Layout from '@/layouts/Layout';
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog';
-import { ResourceList } from '@/components/resources/ResourceList';
-import { ResourceDialog } from '@/components/resources/ResourceDialog';
+import { ResourceList, ResourceDialog, EditableResourceDialog, Field } from '@/components/resources';
 import * as yup from 'yup';
-import { EditableResourceDialog, Field } from '@/components/resources/';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import short from 'short-uuid';
 import { ClosableSnackbar } from '@/components/common/ClosableSnackbar';
@@ -54,7 +52,7 @@ const fields: Field<UserForm>[] = [
       const { name } = field;
       const { errors } = form.formState;
       return (
-          <TextField {...form.register(name)} error={name in errors} helperText={errors[name]?.message || ''} disabled />
+        <TextField {...form.register(name)} error={name in errors} helperText={errors[name]?.message || ''} disabled />
       );
     }
   },
@@ -72,11 +70,11 @@ const fields: Field<UserForm>[] = [
     name: 'age',
     label: '年齢',
     schema: yup
-        .number()
-        .integer()
-        .transform((v, o) => (o === '' ? undefined : v))
-        .typeError(({ label }) => `${label} must be an integer.`)
-        .required(),
+      .number()
+      .integer()
+      .transform((v, o) => (o === '' ? undefined : v))
+      .typeError(({ label }) => `${label} must be an integer.`)
+      .required(),
     component: (field, form) => {
       const { name } = field;
       const { errors } = form.formState;
@@ -88,14 +86,15 @@ const fields: Field<UserForm>[] = [
     label: '誕生日',
     schema: yup.date().required(),
     component: (field, form) => {
+      const { name } = field;
       const { errors } = form.formState;
       return (
-          <TextField
-              type="date"
-              {...form.register('birth')}
-              error={'birth' in errors}
-              helperText={errors.birth?.message || ''}
-          />
+        <TextField
+          type="date"
+          {...form.register(name)}
+          error={name in errors}
+          helperText={errors.birth?.message || ''}
+        />
       );
     }
   },
@@ -129,9 +128,9 @@ const fields: Field<UserForm>[] = [
     },
     valueGetter: (rawValue: { [keyof in Hobby]: boolean }) => {
       return Object.entries(rawValue)
-          .filter(([, v]) => v)
-          .map(([k]) => k)
-          .join(',');
+        .filter(([, v]) => v)
+        .map(([k]) => k)
+        .join(',');
     }
   },
   {
@@ -344,47 +343,47 @@ const Index = () => {
   }
 
   return (
-      <Layout>
-        <ClosableSnackbar message={errorText} onClose={onCloseSnackbar} />
-        <ResourceList
-            fields={fields}
-            resources={userFormValues}
-            onClick={onDetailsOpen}
-            onCreate={onCreate}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            onRefresh={onRefresh}
-            loading={usersQuery.isLoading || usersQuery.isRefetching}
+    <Layout>
+      <ClosableSnackbar message={errorText} onClose={onCloseSnackbar} />
+      <ResourceList
+        fields={fields}
+        resources={userFormValues}
+        onClick={onDetailsOpen}
+        onCreate={onCreate}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        onRefresh={onRefresh}
+        loading={usersQuery.isLoading || usersQuery.isRefetching}
+      />
+      {detailsOpen && (
+        <ResourceDialog title="Details" fields={fields} resource={selectedUser} onClose={onDetailsClose} />
+      )}
+      {createOpen && (
+        <EditableResourceDialog
+          title="New"
+          fields={fields.filter((f) => f.name !== 'id')}
+          resource={selectedUser}
+          onOK={onCreateOK}
+          onCancel={onCreateCancel}
         />
-        {detailsOpen && (
-            <ResourceDialog title="Details" fields={fields} resource={selectedUser} onClose={onDetailsClose} />
-        )}
-        {createOpen && (
-            <EditableResourceDialog
-                title="New"
-                fields={fields.filter((f) => f.name !== 'id')}
-                resource={selectedUser}
-                onOK={onCreateOK}
-                onCancel={onCreateCancel}
-            />
-        )}
-        {editOpen && (
-            <EditableResourceDialog
-                title="Update"
-                fields={fields}
-                resource={selectedUser}
-                onOK={onEditOK}
-                onCancel={onEditCancel}
-            />
-        )}
-        <ConfirmationDialog
-            title="Deletion"
-            body="Are you sure to delete?"
-            open={deleteOpen}
-            onOK={onDeleteOK(selectedUser)}
-            onCancel={onDeleteCancel}
-        ></ConfirmationDialog>
-      </Layout>
+      )}
+      {editOpen && (
+        <EditableResourceDialog
+          title="Update"
+          fields={fields}
+          resource={selectedUser}
+          onOK={onEditOK}
+          onCancel={onEditCancel}
+        />
+      )}
+      <ConfirmationDialog
+        title="Deletion"
+        body="Are you sure to delete?"
+        open={deleteOpen}
+        onOK={onDeleteOK(selectedUser)}
+        onCancel={onDeleteCancel}
+      ></ConfirmationDialog>
+    </Layout>
   );
 };
 

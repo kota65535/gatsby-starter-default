@@ -1,10 +1,10 @@
-import { css, Dialog } from "@mui/material";
-import React from "react";
+import { css, Dialog } from '@mui/material';
+import React from 'react';
 
 interface Props {
-  file: File
-  open: boolean
-  onClose: () => void
+  file: File;
+  open: boolean;
+  onClose: () => void;
 }
 
 const imgStyle = css`

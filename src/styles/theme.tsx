@@ -1,28 +1,28 @@
-import React, { ReactNode } from "react";
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import React, { ReactNode } from 'react';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#1976d2",
+      main: '#1976d2'
     },
     secondary: {
-      main: "#ba000d",
-    },
+      main: '#ba000d'
+    }
   },
   typography: {
     fontSize: 14,
     h1: {
-      fontSize: 24,
+      fontSize: 24
     },
     h2: {
-      fontSize: 20,
-    },
-  },
+      fontSize: 20
+    }
+  }
   // components: {
   //   MuiButton: {
   //     styleOverrides: {

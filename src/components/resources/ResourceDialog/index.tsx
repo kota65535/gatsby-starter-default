@@ -1,38 +1,24 @@
-import React from "react";
+import React from 'react';
 import {
-  Box,
-  css,
   Dialog,
   DialogContent,
   DialogTitle,
-  IconButton,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
-} from "@mui/material";
-import { FieldValues } from "react-hook-form";
-import { GridColDef } from "@mui/x-data-grid";
-import CloseIcon from "@mui/icons-material/Close";
-import { DialogCloseButton } from "@/components/common";
-
-interface Field<R extends FieldValues> extends Pick<GridColDef<R>, "valueGetter"> {
-  name: Extract<keyof R, string>
-  label: string
-}
+  TableRow
+} from '@mui/material';
+import { FieldValues } from 'react-hook-form';
+import { DialogCloseButton } from '@/components/common';
+import { Field } from '@/components/resources';
 
 interface Props<R extends FieldValues> {
-  fields: Field<R>[]
-  resource?: R
-  title: string
-  onClose: () => void
+  fields: Field<R>[];
+  resource?: R;
+  title: string;
+  onClose: () => void;
 }
-
-const buttonStyle = css`
-  position: absolute;
-  margin: 10px 8px;
-`;
 
 export const ResourceDialog = <R extends FieldValues>(props: Props<R>) => {
   return (
@@ -47,7 +33,7 @@ export const ResourceDialog = <R extends FieldValues>(props: Props<R>) => {
                 const rawValue = props.resource?.[f.name];
                 let value;
                 if (rawValue == null) {
-                  value = "";
+                  value = '';
                 } else {
                   if (f.valueGetter) {
                     value = f.valueGetter(rawValue);

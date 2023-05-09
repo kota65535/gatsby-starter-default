@@ -1,12 +1,12 @@
-import React from "react";
-import { Avatar, Card, CardHeader, css, IconButton } from "@mui/material";
-import FileIcon from "@mui/icons-material/InsertDriveFile";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { ImageDialog } from "@/components/common";
+import React from 'react';
+import { Avatar, Card, CardHeader, css, IconButton } from '@mui/material';
+import FileIcon from '@mui/icons-material/InsertDriveFile';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ImageDialog } from '@/components/common';
 
 interface Props {
-  file: File
-  onClick: (name: string) => void
+  file: File;
+  onClick: (name: string) => void;
 }
 
 const imageAvatarStyle = css`
@@ -29,7 +29,7 @@ export const FileCard = (props: Props) => {
       <FileIcon />
     </Avatar>
   );
-  if (props.file.type.startsWith("image/")) {
+  if (props.file.type.startsWith('image/')) {
     const url = URL.createObjectURL(props.file);
     FileAvatar = <Avatar src={url} onClick={onDialogOpen} css={imageAvatarStyle} />;
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   Dialog,
@@ -9,35 +9,35 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
-} from "@mui/material";
-import * as yup from "yup";
-import { DefaultValues, FieldValues, useForm, UseFormReturn } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { LoadingButton } from "@mui/lab";
-import { DialogCloseButton } from "@/components/common";
-import {Field} from "@/components/resources";
+  TableRow
+} from '@mui/material';
+import * as yup from 'yup';
+import { DefaultValues, FieldValues, useForm, UseFormReturn } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { LoadingButton } from '@mui/lab';
+import { DialogCloseButton } from '@/components/common';
+import { Field } from '@/components/resources';
 
 interface Props<R extends FieldValues> {
-  fields: Field<R>[]
-  resource?: R
-  title: string
-  onOK: (data: R) => void
-  onCancel: () => void
+  fields: Field<R>[];
+  resource?: R;
+  title: string;
+  onOK: (data: R) => void;
+  onCancel: () => void;
 }
 
 export const EditableResourceDialog = <R extends FieldValues>(props: Props<R>) => {
   const schema = yup.object(props.fields.reduce((a, v) => ({ ...a, [v.name]: v.schema.label(v.label) }), {}));
 
   const form = useForm<R>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: yupResolver(schema),
-    defaultValues: props.resource as DefaultValues<R>,
+    defaultValues: props.resource as DefaultValues<R>
   });
 
   const {
     handleSubmit,
-    formState: { isValid, isSubmitting },
+    formState: { isValid, isSubmitting }
   } = form;
 
   const onOK = async (data: R) => {

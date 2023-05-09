@@ -3,7 +3,7 @@ import { Box, Button } from '@mui/material';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import { FieldByType } from '../../types';
 import { FileCard } from '@/components/common';
-import _ from "lodash";
+import _ from 'lodash';
 
 interface Props<R extends FieldValues> {
   form: UseFormReturn<R>;

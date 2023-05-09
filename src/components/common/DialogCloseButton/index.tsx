@@ -1,9 +1,9 @@
-import React from "react";
-import { Box, css, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import React from 'react';
+import { Box, css, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
-  onClose: () => void
+  onClose: () => void;
 }
 
 const buttonStyle = css`

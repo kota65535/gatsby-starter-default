@@ -1,11 +1,11 @@
-import { DataGrid, GridActionsCellItem, GridColDef, GridToolbarContainer, GridValidRowModel } from "@mui/x-data-grid";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import React from "react";
-import { Button, css, IconButton } from "@mui/material";
-import { FieldValues } from "react-hook-form";
+import { DataGrid, GridActionsCellItem, GridColDef, GridToolbarContainer, GridValidRowModel } from '@mui/x-data-grid';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import React from 'react';
+import { Button, css, IconButton } from '@mui/material';
+import { FieldValues } from 'react-hook-form';
 
 const dataGridStyle = css`
   .MuiDataGrid-row {
@@ -19,28 +19,28 @@ const dataGridStyle = css`
   }
 `;
 
-interface Field<R extends FieldValues> extends Omit<GridColDef<R>, "field" | "headerName"> {
-  name: Extract<keyof R, string>
-  label: string
+interface Field<R extends FieldValues> extends Omit<GridColDef<R>, 'field' | 'headerName'> {
+  name: Extract<keyof R, string>;
+  label: string;
 }
 
 interface Props<R extends FieldValues> {
-  fields: Field<R>[]
-  resources: R[]
-  onCreate: () => void
-  onClick: (resource: R) => void
-  onEdit: (resource: R) => void
-  onDelete: (resource: R) => void
-  onRefresh: () => void
-  loading?: boolean
+  fields: Field<R>[];
+  resources: R[];
+  onCreate: () => void;
+  onClick: (resource: R) => void;
+  onEdit: (resource: R) => void;
+  onDelete: (resource: R) => void;
+  onRefresh: () => void;
+  loading?: boolean;
 }
 
 export const ResourceList = <R extends GridValidRowModel>(props: Props<R>) => {
-  const columns: GridColDef<R>[] = props.fields.map(f => {
+  const columns: GridColDef<R>[] = props.fields.map((f) => {
     return {
       field: f.name,
       headerName: f.label,
-      valueGetter: f.valueGetter ? params => f.valueGetter?.(params.row[f.name]) : undefined,
+      valueGetter: f.valueGetter ? (params) => f.valueGetter?.(params.row[f.name]) : undefined
     };
   });
   const onCreateClick = (e: React.MouseEvent) => {
@@ -57,11 +57,11 @@ export const ResourceList = <R extends GridValidRowModel>(props: Props<R>) => {
   };
 
   columns.push({
-    field: "actions",
-    type: "actions",
-    headerName: "Actions",
+    field: 'actions',
+    type: 'actions',
+    headerName: 'Actions',
     width: 100,
-    getActions: params => {
+    getActions: (params) => {
       return [
         <GridActionsCellItem
           key={`${params.id}-edit`}
@@ -76,9 +76,9 @@ export const ResourceList = <R extends GridValidRowModel>(props: Props<R>) => {
           label="Delete"
           onClick={onDeleteClick(params.row)}
           color="primary"
-        />,
+        />
       ];
-    },
+    }
   });
 
   return (
@@ -87,12 +87,12 @@ export const ResourceList = <R extends GridValidRowModel>(props: Props<R>) => {
       rows={props.resources}
       columns={columns}
       disableRowSelectionOnClick
-      onRowClick={params => {
+      onRowClick={(params) => {
         props.onClick(params.row);
       }}
       slots={{
         toolbar: () => (
-          <GridToolbarContainer sx={{ justifyContent: "space-between" }}>
+          <GridToolbarContainer sx={{ justifyContent: 'space-between' }}>
             <Button color="primary" startIcon={<AddIcon />} onClick={onCreateClick}>
               New
             </Button>
@@ -100,7 +100,7 @@ export const ResourceList = <R extends GridValidRowModel>(props: Props<R>) => {
               <RefreshIcon fontSize="small" />
             </IconButton>
           </GridToolbarContainer>
-        ),
+        )
       }}
       loading={props.loading}
       css={dataGridStyle}
