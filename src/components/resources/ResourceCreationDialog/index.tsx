@@ -12,7 +12,7 @@ import {
   TableRow
 } from '@mui/material';
 import * as yup from 'yup';
-import { DefaultValues, FieldValues, useForm, UseFormReturn } from 'react-hook-form';
+import { DefaultValues, FieldValues, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoadingButton } from '@mui/lab';
 import { DialogCloseButton } from '@/components/common';
@@ -26,7 +26,7 @@ interface Props<R extends FieldValues> {
   onCancel: () => void;
 }
 
-export const EditableResourceDialog = <R extends FieldValues>(props: Props<R>) => {
+export const ResourceCreationDialog = <R extends FieldValues>(props: Props<R>) => {
   const schema = yup.object(props.fields.reduce((a, v) => ({ ...a, [v.name]: v.schema.label(v.label) }), {}));
 
   const form = useForm<R>({

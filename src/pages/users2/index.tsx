@@ -1,7 +1,6 @@
 import React from 'react';
 import Layout from '@/layouts/Layout';
-import { ConfirmationDialog } from '@/components/common/ConfirmationDialog';
-import { ResourceList, ResourceDetailsDialog, ResourceCreationDialog, Field } from '@/components/resources';
+import { ResourceList, ResourceEditDialog, Field } from '@/components/resources';
 import * as yup from 'yup';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import short from 'short-uuid';
@@ -253,28 +252,8 @@ const Index = () => {
     }
   });
   const [selectedUser, setSelectedUser] = React.useState<UserForm | undefined>(undefined);
-  const [createOpen, setCreateOpen] = React.useState(false);
   const [detailsOpen, setDetailsOpen] = React.useState(false);
-  const [deleteOpen, setDeleteOpen] = React.useState(false);
-  const [editOpen, setEditOpen] = React.useState(false);
   const [errorText, setErrorText] = React.useState('');
-
-  const onCreate = () => {
-    setCreateOpen(true);
-  };
-  const onCreateOK = async (data: Partial<UserForm>) => {
-    const user = formToResource(data as UserForm);
-    try {
-      await createUserMutation.mutateAsync(user);
-    } finally {
-      setCreateOpen(false);
-      setSelectedUser(undefined);
-    }
-  };
-  const onCreateCancel = () => {
-    setCreateOpen(false);
-    setSelectedUser(undefined);
-  };
 
   const onDetailsOpen = (data: UserForm) => {
     setDetailsOpen(true);
@@ -285,42 +264,10 @@ const Index = () => {
     setSelectedUser(undefined);
   };
 
-  const onEdit = (user: UserForm) => {
-    setEditOpen(true);
-    setSelectedUser(user);
-  };
   const onEditOK = async (data: UserForm) => {
     const user = formToResource(data);
-    try {
-      await updateUserMutation.mutateAsync(user);
-    } finally {
-      setEditOpen(false);
-      setSelectedUser(undefined);
-    }
-  };
-  const onEditCancel = () => {
-    setEditOpen(false);
-    setSelectedUser(undefined);
-  };
-
-  const onDelete = (data: UserForm) => {
-    setDeleteOpen(true);
+    await updateUserMutation.mutateAsync(user);
     setSelectedUser(data);
-  };
-  const onDeleteOK = (data: UserForm | undefined) => async () => {
-    try {
-      if (data) {
-        const user = formToResource(data);
-        await deleteUserMutation.mutateAsync(user);
-      }
-    } finally {
-      setDeleteOpen(false);
-      setSelectedUser(undefined);
-    }
-  };
-  const onDeleteCancel = () => {
-    setDeleteOpen(false);
-    setSelectedUser(undefined);
   };
 
   const onRefresh = async () => {
@@ -349,40 +296,18 @@ const Index = () => {
         fields={fields}
         resources={userFormValues}
         onClick={onDetailsOpen}
-        onCreate={onCreate}
-        onEdit={onEdit}
-        onDelete={onDelete}
         onRefresh={onRefresh}
         loading={usersQuery.isLoading || usersQuery.isRefetching}
       />
       {detailsOpen && (
-        <ResourceDetailsDialog title="Details" fields={fields} resource={selectedUser} onClose={onDetailsClose} />
-      )}
-      {createOpen && (
-        <ResourceCreationDialog
-          title="New"
-          fields={fields.filter((f) => f.name !== 'id')}
-          resource={selectedUser}
-          onOK={onCreateOK}
-          onCancel={onCreateCancel}
-        />
-      )}
-      {editOpen && (
-        <ResourceCreationDialog
-          title="Update"
+        <ResourceEditDialog
+          title="Details"
           fields={fields}
           resource={selectedUser}
-          onOK={onEditOK}
-          onCancel={onEditCancel}
+          onEdit={onEditOK}
+          onClose={onDetailsClose}
         />
       )}
-      <ConfirmationDialog
-        title="Deletion"
-        body="Are you sure to delete?"
-        open={deleteOpen}
-        onOK={onDeleteOK(selectedUser)}
-        onCancel={onDeleteCancel}
-      ></ConfirmationDialog>
     </Layout>
   );
 };

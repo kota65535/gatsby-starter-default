@@ -20,7 +20,7 @@ interface Props<R extends FieldValues> {
   onClose: () => void;
 }
 
-export const ResourceDialog = <R extends FieldValues>(props: Props<R>) => {
+export const ResourceDetailsDialog = <R extends FieldValues>(props: Props<R>) => {
   return (
     <Dialog open={true} onClose={props.onClose}>
       <DialogCloseButton onClose={props.onClose} />

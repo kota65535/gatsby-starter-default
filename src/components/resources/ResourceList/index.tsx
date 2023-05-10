@@ -27,11 +27,11 @@ interface Field<R extends FieldValues> extends Omit<GridColDef<R>, 'field' | 'he
 interface Props<R extends FieldValues> {
   fields: Field<R>[];
   resources: R[];
-  onCreate: () => void;
+  onCreate?: () => void;
   onClick: (resource: R) => void;
-  onEdit: (resource: R) => void;
-  onDelete: (resource: R) => void;
-  onRefresh: () => void;
+  onEdit?: (resource: R) => void;
+  onDelete?: (resource: R) => void;
+  onRefresh?: () => void;
   loading?: boolean;
 }
 
@@ -44,42 +44,56 @@ export const ResourceList = <R extends GridValidRowModel>(props: Props<R>) => {
     };
   });
   const onCreateClick = (e: React.MouseEvent) => {
-    props.onCreate();
+    e.preventDefault();
+    props.onCreate?.();
   };
   const onEditClick = (resource: R) => (e: React.MouseEvent) => {
-    props.onEdit(resource);
+    e.preventDefault();
+    props.onEdit?.(resource);
   };
   const onDeleteClick = (resource: R) => (e: React.MouseEvent) => {
-    props.onDelete(resource);
+    e.preventDefault();
+    props.onDelete?.(resource);
   };
   const onRefreshClick = (e: React.MouseEvent) => {
-    props.onRefresh();
+    e.preventDefault();
+    props.onRefresh?.();
   };
 
-  columns.push({
-    field: 'actions',
-    type: 'actions',
-    headerName: 'Actions',
-    width: 100,
-    getActions: (params) => {
-      return [
-        <GridActionsCellItem
-          key={`${params.id}-edit`}
-          icon={<EditIcon />}
-          label="Edit"
-          onClick={onEditClick(params.row)}
-          color="primary"
-        />,
-        <GridActionsCellItem
-          key={`${params.id}-delete`}
-          icon={<DeleteIcon />}
-          label="Delete"
-          onClick={onDeleteClick(params.row)}
-          color="primary"
-        />
-      ];
-    }
-  });
+  if (props.onEdit || props.onDelete) {
+    columns.push({
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      getActions: (params) => {
+        const ret = [];
+        if (props.onEdit) {
+          ret.push(
+            <GridActionsCellItem
+              key={`${params.id}-edit`}
+              icon={<EditIcon />}
+              label="Edit"
+              onClick={onEditClick(params.row)}
+              color="primary"
+            />
+          );
+        }
+        if (props.onDelete) {
+          ret.push(
+            <GridActionsCellItem
+              key={`${params.id}-delete`}
+              icon={<DeleteIcon />}
+              label="Delete"
+              onClick={onDeleteClick(params.row)}
+              color="primary"
+            />
+          );
+        }
+        return ret;
+      }
+    });
+  }
 
   return (
     <DataGrid
@@ -93,12 +107,16 @@ export const ResourceList = <R extends GridValidRowModel>(props: Props<R>) => {
       slots={{
         toolbar: () => (
           <GridToolbarContainer sx={{ justifyContent: 'space-between' }}>
-            <Button color="primary" startIcon={<AddIcon />} onClick={onCreateClick}>
-              New
-            </Button>
-            <IconButton color="primary" onClick={onRefreshClick}>
-              <RefreshIcon fontSize="small" />
-            </IconButton>
+            {props.onCreate && (
+              <Button color="primary" startIcon={<AddIcon />} onClick={onCreateClick}>
+                New
+              </Button>
+            )}
+            {props.onRefresh && (
+              <IconButton color="primary" onClick={onRefreshClick}>
+                <RefreshIcon fontSize="small" />
+              </IconButton>
+            )}
           </GridToolbarContainer>
         )
       }}
