@@ -335,7 +335,7 @@ const Index = () => {
     if (usersQuery.isError) {
       setErrorText(usersQuery.error.message);
     }
-  }, [usersQuery.isError]);
+  }, [usersQuery.isError, usersQuery.error?.message]);
 
   let userFormValues: UserForm[] = [];
   if (usersQuery.isSuccess) {

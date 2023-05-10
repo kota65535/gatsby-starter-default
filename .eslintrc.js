@@ -1,34 +1,22 @@
+// cf. https://www.gatsbyjs.com/docs/how-to/custom-configuration/eslint/
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2016: true,
     node: true
   },
-  extends: ['eslint:recommended', 'react-app', 'prettier'],
+  extends: ['react-app', 'react-app/jest', 'prettier'],
   overrides: [
-    // For main application code
-    // TODO: Should use standard-with-typescript?
+    // For Cypress E2E test code
     {
-      extends: ['plugin:@typescript-eslint/recommended'],
-      files: ['src/**/*.{ts,tsx}'],
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: 'tsconfig.json'
-      }
-    },
-    // For cypress e2e test code
-    {
-      extends: ['plugin:@typescript-eslint/recommended', 'plugin:cypress/recommended'],
+      extends: ['plugin:cypress/recommended'],
       files: ['cypress/**/*.ts'],
       parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
         project: 'cypress/tsconfig.json'
       }
     }
   ],
-  plugins: ['react', '@typescript-eslint', 'cypress'],
+  plugins: ['cypress'],
   rules: {
     // Use semicolons (cf. https://github.com/standard/eslint-config-semistandard/blob/master/eslintrc.json)
     semi: ['error', 'always'],

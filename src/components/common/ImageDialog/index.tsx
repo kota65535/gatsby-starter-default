@@ -17,7 +17,7 @@ export const ImageDialog = (props: Props) => {
   const url = URL.createObjectURL(props.file);
   return (
     <Dialog open={props.open} onClick={props.onClose} onClose={props.onClose}>
-      <img src={url} css={imgStyle} alt="image" />
+      <img src={url} css={imgStyle} alt={props.file.name} />
     </Dialog>
   );
 };
